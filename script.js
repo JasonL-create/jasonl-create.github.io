@@ -1,100 +1,62 @@
-const comments = {
-"Clear communication":[
- {meta:"Current Tenant · Maintenance",text:"They answered the same day and explained what would happen next."},
- {meta:"Property Owner · Owner Services",text:"I usually know about problems before they become expensive."},
- {meta:"Former Tenant · Move Out",text:"I did not agree with every charge, but the explanation was detailed and clear."}
-],
-"Professional staff":[
- {meta:"Current Tenant · Leasing",text:"The staff was organized, respectful, and prepared."},
- {meta:"Vendor · Maintenance",text:"The office provides clear work orders and follows up professionally."}
-],
-"Easy leasing process":[
- {meta:"Current Tenant · Leasing",text:"The application and move-in instructions were simple to complete."},
- {meta:"Former Tenant · Leasing",text:"Everything was online and I knew exactly what was needed."}
-],
-"Repair timing":[
- {meta:"Current Tenant · Maintenance",text:"The office responded quickly, but the vendor rescheduled twice."},
- {meta:"Current Tenant · Maintenance",text:"A part had to be ordered. The delay was frustrating, although they kept me informed."},
- {meta:"Former Tenant · Living There",text:"A non-emergency repair took longer than expected but was eventually fixed correctly."}
-],
-"Deposit questions":[
- {meta:"Former Tenant · Move Out",text:"I questioned the cleaning charge, but they provided photos and invoices."},
- {meta:"Former Tenant · Move Out",text:"The accounting was detailed, but the cleaning standard could have been explained sooner."},
- {meta:"Former Tenant · Move Out",text:"I was upset at first, but most of the charge made sense after reviewing the photos."}
-],
-"Vendor scheduling":[
- {meta:"Current Tenant · Maintenance",text:"Management responded quickly, but the vendor gave a large arrival window."},
- {meta:"Vendor · Maintenance",text:"Access coordination sometimes takes extra calls when the tenant is unavailable."}
-]
-};
 
-document.querySelectorAll(".tab").forEach(tab=>{
- tab.addEventListener("click",()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-  tab.classList.add("active");
-  document.getElementById(tab.dataset.panel).classList.add("active");
- });
-});
+const profiles=[
+{id:"owners",title:"Property Owners",score:93,description:"Exceptional Experience",count:142,verified:"Verified Owner",categories:{"Communication":95,"Reporting":91,"Maintenance Oversight":92,"Transparency":94},appreciation:[{title:"Clear communication",count:61},{title:"Detailed reporting",count:48}],concerns:[{title:"Repair approval timing",count:5},{title:"Vendor costs",count:3}]},
+{id:"tenants",title:"Current Tenants",score:88,description:"Strong Experience",count:384,verified:"Verified Tenant",categories:{"Communication":92,"Maintenance":86,"Professionalism":94,"Fairness":83},appreciation:[{title:"Clear communication",count:61},{title:"Professional staff",count:53},{title:"Easy leasing process",count:39}],concerns:[{title:"Repair timing",count:7},{title:"Vendor scheduling",count:3}]},
+{id:"former",title:"Former Tenants",score:82,description:"Generally Positive",count:167,verified:"Verified Former Tenant",categories:{"Communication":87,"Maintenance":84,"Professionalism":89,"Move Out":74},appreciation:[{title:"Clear explanations",count:28},{title:"Professional staff",count:25}],concerns:[{title:"Deposit questions",count:4},{title:"Move-out expectations",count:6}]},
+{id:"vendors",title:"Vendors",score:95,description:"Exceptional Experience",count:61,verified:"Verified Vendor",categories:{"Communication":96,"Scheduling":93,"Professionalism":97,"Payment":94},appreciation:[{title:"Clear work orders",count:31},{title:"Reliable payment",count:27}],concerns:[{title:"Access coordination",count:3}]}
+];
+const comments=[
+{name:"Sarah M.",date:"July 28, 2026",profile:"owners",category:"Communication",theme:"Clear communication",text:"I usually hear about an issue before I would have known to ask about it."},
+{name:"Michael T.",date:"July 17, 2026",profile:"owners",category:"Reporting",theme:"Detailed reporting",text:"The monthly statements are straightforward and easy to review."},
+{name:"Rebecca H.",date:"June 30, 2026",profile:"owners",category:"Maintenance Oversight",theme:"Repair approval timing",text:"They explain the options before approving an expensive repair, although approvals can add a little time."},
+{name:"Jason L.",date:"July 24, 2026",profile:"tenants",category:"Communication",theme:"Clear communication",text:"I never had to wonder what was happening with my maintenance request."},
+{name:"Emily R.",date:"July 12, 2026",profile:"tenants",category:"Maintenance",theme:"Repair timing",text:"The office responded quickly, but the vendor had to reschedule twice."},
+{name:"Daniel K.",date:"June 22, 2026",profile:"tenants",category:"Professionalism",theme:"Professional staff",text:"The staff was organized and respectful throughout the leasing process."},
+{name:"Kayla J.",date:"June 14, 2026",profile:"tenants",category:"Fairness",theme:"Easy leasing process",text:"The application and move-in instructions were clear and easy to complete."},
+{name:"Amanda C.",date:"July 3, 2026",profile:"former",category:"Move Out",theme:"Deposit questions",text:"I questioned the cleaning charge, but they provided photos and invoices."},
+{name:"Robert N.",date:"June 11, 2026",profile:"former",category:"Communication",theme:"Clear explanations",text:"Even though I disagreed with part of the move-out accounting, the explanation was clear."},
+{name:"Laura P.",date:"May 29, 2026",profile:"former",category:"Move Out",theme:"Move-out expectations",text:"The accounting was detailed, but I wish the cleaning standard had been explained sooner."},
+{name:"Chris B.",date:"July 20, 2026",profile:"vendors",category:"Scheduling",theme:"Access coordination",text:"Access coordination sometimes takes extra calls when a tenant is unavailable."},
+{name:"Nina S.",date:"July 8, 2026",profile:"vendors",category:"Payment",theme:"Reliable payment",text:"Invoices are processed consistently and communication is professional."},
+{name:"Tom W.",date:"June 19, 2026",profile:"vendors",category:"Communication",theme:"Clear work orders",text:"Work orders are clear, and the office provides the details needed before arrival."}
+];
+const grid=document.getElementById("profileGrid");
+const score=s=>`<div class="score-line"><span class="score-main">${s}</span><span class="score-scale">/100</span></div>`;
+const topics=(p,t)=>p[t].map(x=>`<div class="topic"><strong>${x.title}</strong><div class="topic-meta">Mentioned by ${x.count} reviewers</div><button class="read-comments" data-profile="${p.id}" data-theme="${x.title}">Read comments →</button></div>`).join("");
+grid.innerHTML=profiles.map(p=>`<article class="profile-card"><div class="profile-title">${p.title}</div><div class="score-label">Experience Score</div>${score(p.score)}<div class="profile-description">${p.description}</div><button class="learn-button" data-profile="${p.id}">Learn More</button><div class="profile-details" id="details-${p.id}"><div class="details-inner"><div class="divider"></div><p class="verified-count">Based on ${p.count} verified reviewers</p><div class="category-list">${Object.entries(p.categories).map(([c,s])=>`<button class="category-button" data-profile="${p.id}" data-category="${c}"><span class="category-name">${c}</span><span class="category-score"><strong>${s}</strong><small>/100</small></span></button>`).join("")}</div><button class="all-comments" data-profile="${p.id}">Read ${p.title} Comments →</button><section class="community"><h3>Community Experience</h3><p class="community-note">Recurring themes from ${p.title.toLowerCase()}.</p><div class="community-columns"><div class="community-block"><h4>What people appreciate</h4>${topics(p,"appreciation")}</div><div class="community-block"><h4>Concerns with Context</h4>${topics(p,"concerns")}<div class="context-note">A concern count shows how often the topic appeared, not how severe it was.</div></div></div></section></div></div></article>`).join("");
 
-document.querySelectorAll(".learn").forEach(btn=>{
- btn.addEventListener("click",()=>{
-  const details=document.getElementById(btn.dataset.profile);
-  const open=details.classList.toggle("open");
-  btn.textContent=open?"Show Less":"Learn More";
- });
-});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.panel).classList.add("active")});
+document.querySelectorAll(".learn-button").forEach(b=>b.onclick=()=>{const id=b.dataset.profile;document.querySelectorAll(".profile-details").forEach(d=>{if(d.id!==`details-${id}`)d.classList.remove("open")});document.querySelectorAll(".learn-button").forEach(x=>{if(x!==b)x.textContent="Learn More"});const d=document.getElementById(`details-${id}`);const open=d.classList.toggle("open");b.textContent=open?"Show Less":"Learn More"});
 
-const modal=document.getElementById("modal");
-document.querySelectorAll(".read-link").forEach(link=>{
- link.addEventListener("click",()=>{
-  const topic=link.dataset.topic;
-  const list=comments[topic]||[];
-  document.getElementById("modalTitle").textContent=topic;
-  document.getElementById("modalSub").textContent=`${list.length} representative comment${list.length===1?"":"s"}`;
-  document.getElementById("modalBody").innerHTML=list.map(x=>`<div class="comment"><div class="comment-meta">${x.meta}</div><div class="comment-text">“${x.text}”</div></div>`).join("");
-  modal.classList.add("open");
- });
-});
-document.getElementById("close").onclick=()=>modal.classList.remove("open");
-modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+const modal=document.getElementById("commentModal"),title=document.getElementById("modalTitle"),subtitle=document.getElementById("modalSubtitle"),body=document.getElementById("modalBody");
+let active=[],view="grouped";
+const getProfile=id=>profiles.find(p=>p.id===id);
+const dateVal=d=>new Date(d).getTime();
+const card=c=>`<article class="comment-card"><div class="comment-meta"><span class="comment-author">${c.name}</span><span class="verified-badge">${getProfile(c.profile).verified}</span> · ${c.date}</div><div class="comment-text">“${c.text}”</div></article>`;
+function renderComments(){if(!active.length){body.innerHTML='<article class="comment-card">No matching comments are available yet.</article>';return}if(view==="chronological"){body.innerHTML=[...active].sort((a,b)=>dateVal(b.date)-dateVal(a.date)).map(card).join("");return}const groups=active.reduce((r,c)=>{(r[c.theme||c.category||"Other"]||=[]).push(c);return r},{});body.innerHTML=Object.entries(groups).map(([g,items])=>`<section class="comment-group"><h3>${g}</h3>${items.map(card).join("")}</section>`).join("")}
+function openModal(t,s,items){active=items;view="grouped";title.textContent=t;subtitle.textContent=s;document.querySelectorAll(".view-button").forEach(b=>b.classList.toggle("active",b.dataset.view==="grouped"));renderComments();modal.classList.add("open")}
+document.querySelectorAll(".category-button").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile),s=p.categories[b.dataset.category];openModal(b.dataset.category,`${p.title} · Experience Score ${s}/100`,comments.filter(c=>c.profile===p.id&&c.category===b.dataset.category))});
+document.querySelectorAll(".all-comments").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile);openModal(`${p.title} Comments`,`Based on ${p.count} verified reviewers`,comments.filter(c=>c.profile===p.id))});
+document.querySelectorAll(".read-comments").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile);openModal(b.dataset.theme,`${p.title} comments`,comments.filter(c=>c.profile===p.id&&c.theme===b.dataset.theme))});
+document.querySelectorAll(".view-button").forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll(".view-button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderComments()});
+document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
 
-const steps=[...document.querySelectorAll(".step")];
-const answers={};
-let current=0;
-const back=document.getElementById("back");
-const next=document.getElementById("next");
-function render(){
- steps.forEach((s,i)=>s.classList.toggle("active",i===current));
- document.getElementById("stepText").textContent=current<8?`Step ${current+1} of 8`:"Optional comment";
- document.getElementById("bar").style.width=`${Math.min((Math.min(current+1,8)/8)*100,100)}%`;
- back.disabled=current===0;
- const key=steps[current].dataset.key;
- next.textContent=current===8?"Submit Review":"Continue";
- next.disabled=current===8?false:answers[key]==null;
-}
-document.querySelectorAll(".choice,.rate").forEach(btn=>{
- btn.addEventListener("click",()=>{
-  const step=btn.closest(".step");
-  step.querySelectorAll(".choice,.rate").forEach(x=>x.classList.remove("selected"));
-  btn.classList.add("selected");
-  answers[step.dataset.key]=btn.dataset.value;
-  next.disabled=false;
- });
-});
-back.onclick=()=>{if(current>0){current--;render()}};
-next.onclick=()=>{
- if(current<8){current++;render()}
- else{
-  answers.comment=document.getElementById("comment").value.trim();
-  const saved=JSON.parse(localStorage.getItem("pmExperienceReviews")||"[]");
-  saved.push({...answers,createdAt:new Date().toISOString()});
-  localStorage.setItem("pmExperienceReviews",JSON.stringify(saved));
-  document.getElementById("flow").style.display="none";
-  document.getElementById("success").style.display="block";
- }
-};
-document.getElementById("showProfile").onclick=()=>{
- document.querySelector('[data-panel="profile"]').click();
-};
-render();
+const reviewSteps=[
+{key:"role",eyebrow:"Your perspective",title:"Which best describes you?",type:"choices",options:["Current Tenant","Former Tenant","Property Owner","Vendor"]},
+{key:"stage",eyebrow:"Experience type",title:"What are you reviewing?",type:"choices",options:["Leasing","Living There","Maintenance","Move Out","Owner Services","Overall Experience"]},
+{key:"overall",eyebrow:"Overall experience",title:"How did it feel overall?",type:"choices",options:["🤩 Excellent","🙂 Good","😐 Average","🙁 Poor","😠 Very Poor"],values:[100,80,60,40,20],columns:5},
+{key:"communication",eyebrow:"Category 1 of 4",title:"Communication",type:"rating"},
+{key:"service",eyebrow:"Category 2 of 4",title:"Service response",type:"rating"},
+{key:"professionalism",eyebrow:"Category 3 of 4",title:"Professionalism",type:"rating"},
+{key:"fairness",eyebrow:"Category 4 of 4",title:"Fairness and transparency",type:"rating"},
+{key:"returnChoice",eyebrow:"Final required question",title:"Would you choose them again?",type:"choices",options:["✓ Yes","~ Maybe","× No"],values:["Yes","Maybe","No"],columns:3},
+{key:"comment",eyebrow:"Optional",title:"Anything others should know?",type:"comment"}];
+document.getElementById("steps").innerHTML=reviewSteps.map((s,i)=>{let content="";if(s.type==="choices")content=`<div class="choices" ${s.columns?`style="grid-template-columns:repeat(${s.columns},1fr)"`:""}>${s.options.map((label,j)=>`<button class="choice" data-value="${s.values?s.values[j]:label}">${label}</button>`).join("")}</div>`;else if(s.type==="rating")content=`<div class="rating-row">${[5,4,3,2,1].map((n,j)=>`<button class="rating-button" data-value="${[100,80,60,40,20][j]}">${n}</button>`).join("")}</div><div class="scale-labels"><span>Excellent</span><span>Needs work</span></div>`;else content='<textarea id="reviewComment" maxlength="400" placeholder="What stood out, positively or negatively?"></textarea>';return `<section class="step ${i===0?"active":""}" data-key="${s.key}"><p class="eyebrow">${s.eyebrow}</p><h2>${s.title}</h2>${content}</section>`}).join("");
+const steps=[...document.querySelectorAll(".step")],answers={};let current=0;const back=document.getElementById("backButton"),next=document.getElementById("nextButton");
+function renderStep(){steps.forEach((s,i)=>s.classList.toggle("active",i===current));document.getElementById("stepText").textContent=current<8?`Step ${current+1} of 8`:"Optional comment";document.getElementById("progressBar").style.width=`${Math.min((Math.min(current+1,8)/8)*100,100)}%`;back.disabled=current===0;const key=steps[current].dataset.key;next.textContent=current===8?"Submit Review":"Continue";next.disabled=current===8?false:answers[key]==null}
+document.querySelectorAll(".choice,.rating-button").forEach(b=>b.onclick=()=>{const s=b.closest(".step");s.querySelectorAll(".choice,.rating-button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");answers[s.dataset.key]=b.dataset.value;next.disabled=false});
+back.onclick=()=>{if(current>0){current--;renderStep()}};
+next.onclick=()=>{if(current<8){current++;renderStep();return}answers.comment=document.getElementById("reviewComment").value.trim();const saved=JSON.parse(localStorage.getItem("experienceProfileReviews")||"[]");saved.push({...answers,createdAt:new Date().toISOString()});localStorage.setItem("experienceProfileReviews",JSON.stringify(saved));document.getElementById("reviewFlow").classList.add("hidden");document.getElementById("success").classList.remove("hidden")};
+document.getElementById("viewProfileButton").onclick=()=>document.querySelector('[data-panel="profilePanel"]').click();
+renderStep();

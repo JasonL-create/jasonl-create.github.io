@@ -1,279 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Property Management Experience Profile</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience Profile</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="shell">
-  <div class="topbar">
-    <div>
-      <h1>Property Management Experience</h1>
-      <p>A clearer way to understand what it is like to work with a company.</p>
-    </div>
-    <div class="badge">Fresh Build</div>
-  </div>
-
-  <div class="app">
-    <div class="tabs">
-      <button class="tab active" data-panel="profile">Experience Profile</button>
-      <button class="tab" data-panel="review">Leave a Review</button>
-    </div>
-
-    <section id="profile" class="panel active">
-      <div class="eyebrow">Northwoods Property Management</div>
-      <h2>Experience Profile</h2>
-      <p class="sub">Choose the perspective that best matches your relationship with the company.</p>
-
-      <div class="profile-grid">
-        <div class="profile-card">
-          <div class="profile-card-top">
-            <div>
-              <div class="profile-title">Property Owners</div>
-              <div class="profile-label">Exceptional Experience</div>
-              <div class="profile-meta">Based on 142 verified owners</div>
-            </div>
-            <div class="profile-score">93%</div>
-          </div>
-          <button class="learn" data-profile="owners">Learn More</button>
-          <div class="details" id="owners">
-            <div class="metrics">
-              <div class="metric"><strong>95%</strong><span>Communication</span></div>
-              <div class="metric"><strong>91%</strong><span>Reporting</span></div>
-              <div class="metric"><strong>92%</strong><span>Maintenance Oversight</span></div>
-              <div class="metric"><strong>94%</strong><span>Transparency</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile-card">
-          <div class="profile-card-top">
-            <div>
-              <div class="profile-title">Current Tenants</div>
-              <div class="profile-label">Strong Experience</div>
-              <div class="profile-meta">Based on 384 verified tenants</div>
-            </div>
-            <div class="profile-score">88%</div>
-          </div>
-          <button class="learn" data-profile="tenants">Learn More</button>
-          <div class="details" id="tenants">
-            <div class="metrics">
-              <div class="metric"><strong>92%</strong><span>Communication</span></div>
-              <div class="metric"><strong>86%</strong><span>Maintenance</span></div>
-              <div class="metric"><strong>94%</strong><span>Professionalism</span></div>
-              <div class="metric"><strong>83%</strong><span>Fairness</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile-card">
-          <div class="profile-card-top">
-            <div>
-              <div class="profile-title">Former Tenants</div>
-              <div class="profile-label">Generally Positive</div>
-              <div class="profile-meta">Based on 167 verified former tenants</div>
-            </div>
-            <div class="profile-score">82%</div>
-          </div>
-          <button class="learn" data-profile="former">Learn More</button>
-          <div class="details" id="former">
-            <div class="metrics">
-              <div class="metric"><strong>87%</strong><span>Communication</span></div>
-              <div class="metric"><strong>84%</strong><span>Maintenance</span></div>
-              <div class="metric"><strong>89%</strong><span>Professionalism</span></div>
-              <div class="metric"><strong>74%</strong><span>Move Out</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile-card">
-          <div class="profile-card-top">
-            <div>
-              <div class="profile-title">Vendors</div>
-              <div class="profile-label">Exceptional Experience</div>
-              <div class="profile-meta">Based on 61 verified vendors</div>
-            </div>
-            <div class="profile-score">95%</div>
-          </div>
-          <button class="learn" data-profile="vendors">Learn More</button>
-          <div class="details" id="vendors">
-            <div class="metrics">
-              <div class="metric"><strong>96%</strong><span>Communication</span></div>
-              <div class="metric"><strong>93%</strong><span>Scheduling</span></div>
-              <div class="metric"><strong>97%</strong><span>Professionalism</span></div>
-              <div class="metric"><strong>94%</strong><span>Payment</span></div>
-            </div>
-          </div>
-        </div>
+  <main class="shell">
+    <header class="brand-header">
+      <div>
+        <p class="eyebrow">Northwoods Property Management</p>
+        <h1>Experience Profile</h1>
+        <p class="intro">Understand what it is actually like to work with this business.</p>
       </div>
+      <span class="demo-badge">Concept Demo</span>
+    </header>
 
-      <div class="section">
-        <h3>Community Experience</h3>
-        <p class="section-note">Recurring themes gathered from reviewer comments.</p>
+    <section class="app">
+      <nav class="tabs">
+        <button class="tab active" data-panel="profilePanel">Experience Profile</button>
+        <button class="tab" data-panel="reviewPanel">Leave a Review</button>
+      </nav>
 
-        <div class="community-grid">
-          <div class="community-card">
-            <h4>What people appreciate</h4>
+      <section id="profilePanel" class="panel active">
+        <div id="profileGrid" class="profile-grid"></div>
+      </section>
 
-            <div class="topic-card">
-              <div class="topic-title">Clear communication</div>
-              <div class="topic-meta">Mentioned by 61 reviewers</div>
-              <div class="read-link" data-topic="Clear communication">Read comments →</div>
-            </div>
-
-            <div class="topic-card">
-              <div class="topic-title">Professional staff</div>
-              <div class="topic-meta">Mentioned by 53 reviewers</div>
-              <div class="read-link" data-topic="Professional staff">Read comments →</div>
-            </div>
-
-            <div class="topic-card">
-              <div class="topic-title">Easy leasing process</div>
-              <div class="topic-meta">Mentioned by 39 reviewers</div>
-              <div class="read-link" data-topic="Easy leasing process">Read comments →</div>
-            </div>
+      <section id="reviewPanel" class="panel">
+        <div id="reviewFlow">
+          <div class="progress-meta">
+            <span id="stepText">Step 1 of 8</span>
+            <span>Usually under 1 minute</span>
           </div>
-
-          <div class="community-card">
-            <h4>Concerns with Context</h4>
-
-            <div class="topic-card">
-              <div class="topic-title">Repair timing</div>
-              <div class="topic-meta">Mentioned by 7 reviewers</div>
-              <div class="read-link" data-topic="Repair timing">Read comments →</div>
-            </div>
-
-            <div class="topic-card">
-              <div class="topic-title">Deposit questions</div>
-              <div class="topic-meta">Mentioned by 4 reviewers</div>
-              <div class="read-link" data-topic="Deposit questions">Read comments →</div>
-            </div>
-
-            <div class="topic-card">
-              <div class="topic-title">Vendor scheduling</div>
-              <div class="topic-meta">Mentioned by 3 reviewers</div>
-              <div class="read-link" data-topic="Vendor scheduling">Read comments →</div>
-            </div>
-
-            <div class="context-box">
-              Concern counts show how often a topic appeared, not how severe it was. Reading the related comments provides the necessary context.
-            </div>
+          <div class="progress"><div id="progressBar"></div></div>
+          <div id="steps"></div>
+          <div class="actions">
+            <button class="button secondary" id="backButton" disabled>Back</button>
+            <button class="button primary" id="nextButton" disabled>Continue</button>
           </div>
         </div>
-      </div>
+
+        <div id="success" class="success hidden">
+          <div class="success-icon">✓</div>
+          <h2>Experience recorded</h2>
+          <p>This demo stores the review in your browser only.</p>
+          <button class="button primary" id="viewProfileButton">View Experience Profile</button>
+        </div>
+      </section>
     </section>
+  </main>
 
-    <section id="review" class="panel">
-      <div id="flow">
-        <div class="progress-meta"><span id="stepText">Step 1 of 8</span><span>Usually under 1 minute</span></div>
-        <div class="progress"><div id="bar"></div></div>
-
-        <div class="step active" data-key="role">
-          <div class="eyebrow">Your perspective</div>
-          <h2>Which best describes you?</h2>
-          <div class="choices">
-            <button class="choice" data-value="Current Tenant">Current Tenant</button>
-            <button class="choice" data-value="Former Tenant">Former Tenant</button>
-            <button class="choice" data-value="Property Owner">Property Owner</button>
-            <button class="choice" data-value="Vendor">Vendor</button>
-          </div>
+  <div class="modal-wrap" id="commentModal" aria-hidden="true">
+    <section class="modal">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">Experience Comments</p>
+          <h2 id="modalTitle"></h2>
+          <p id="modalSubtitle" class="modal-subtitle"></p>
         </div>
-
-        <div class="step" data-key="stage">
-          <div class="eyebrow">Experience type</div>
-          <h2>What are you reviewing?</h2>
-          <div class="choices">
-            <button class="choice" data-value="Leasing">Leasing</button>
-            <button class="choice" data-value="Living There">Living There</button>
-            <button class="choice" data-value="Maintenance">Maintenance</button>
-            <button class="choice" data-value="Move Out">Move Out</button>
-            <button class="choice" data-value="Owner Services">Owner Services</button>
-            <button class="choice" data-value="Overall Experience">Overall Experience</button>
-          </div>
-        </div>
-
-        <div class="step" data-key="overall">
-          <div class="eyebrow">Overall experience</div>
-          <h2>How did it feel overall?</h2>
-          <div class="choices" style="grid-template-columns:repeat(5,1fr)">
-            <button class="choice" data-value="100">🤩 Excellent</button>
-            <button class="choice" data-value="80">🙂 Good</button>
-            <button class="choice" data-value="60">😐 Average</button>
-            <button class="choice" data-value="40">🙁 Poor</button>
-            <button class="choice" data-value="20">😠 Very Poor</button>
-          </div>
-        </div>
-
-        <div class="step" data-key="communication">
-          <div class="eyebrow">Category 1 of 4</div><h2>Communication</h2>
-          <div class="rating">
-            <button class="rate" data-value="100">5</button><button class="rate" data-value="80">4</button><button class="rate" data-value="60">3</button><button class="rate" data-value="40">2</button><button class="rate" data-value="20">1</button>
-          </div><div class="scale"><span>Excellent</span><span>Needs work</span></div>
-        </div>
-
-        <div class="step" data-key="service">
-          <div class="eyebrow">Category 2 of 4</div><h2>Service response</h2>
-          <div class="rating">
-            <button class="rate" data-value="100">5</button><button class="rate" data-value="80">4</button><button class="rate" data-value="60">3</button><button class="rate" data-value="40">2</button><button class="rate" data-value="20">1</button>
-          </div><div class="scale"><span>Excellent</span><span>Needs work</span></div>
-        </div>
-
-        <div class="step" data-key="professionalism">
-          <div class="eyebrow">Category 3 of 4</div><h2>Professionalism</h2>
-          <div class="rating">
-            <button class="rate" data-value="100">5</button><button class="rate" data-value="80">4</button><button class="rate" data-value="60">3</button><button class="rate" data-value="40">2</button><button class="rate" data-value="20">1</button>
-          </div><div class="scale"><span>Excellent</span><span>Needs work</span></div>
-        </div>
-
-        <div class="step" data-key="fairness">
-          <div class="eyebrow">Category 4 of 4</div><h2>Fairness and transparency</h2>
-          <div class="rating">
-            <button class="rate" data-value="100">5</button><button class="rate" data-value="80">4</button><button class="rate" data-value="60">3</button><button class="rate" data-value="40">2</button><button class="rate" data-value="20">1</button>
-          </div><div class="scale"><span>Excellent</span><span>Needs work</span></div>
-        </div>
-
-        <div class="step" data-key="returnChoice">
-          <div class="eyebrow">Final required question</div><h2>Would you choose them again?</h2>
-          <div class="choices" style="grid-template-columns:repeat(3,1fr)">
-            <button class="choice" data-value="Yes">✓ Yes</button>
-            <button class="choice" data-value="Maybe">~ Maybe</button>
-            <button class="choice" data-value="No">× No</button>
-          </div>
-        </div>
-
-        <div class="step" data-key="comment">
-          <div class="eyebrow">Optional</div><h2>Anything others should know?</h2>
-          <textarea id="comment" maxlength="400" placeholder="What stood out, positively or negatively?"></textarea>
-        </div>
-
-        <div class="actions">
-          <button class="btn secondary" id="back" disabled>Back</button>
-          <button class="btn primary" id="next" disabled>Continue</button>
-        </div>
+        <button class="close-button" id="closeModal">×</button>
+      </header>
+      <div class="view-toggle">
+        <button class="view-button active" data-view="grouped">Grouped</button>
+        <button class="view-button" data-view="chronological">Chronological</button>
       </div>
-
-      <div class="success" id="success" style="display:none">
-        <div class="check">✓</div>
-        <h2>Experience recorded</h2>
-        <p class="sub">This demo stores the review in your browser only.</p>
-        <button class="btn primary" id="showProfile">View Experience Profile</button>
-      </div>
+      <div class="modal-body" id="modalBody"></div>
     </section>
   </div>
-</div>
 
-<div class="modal-wrap" id="modal">
-  <div class="modal">
-    <div class="modal-head">
-      <div><h3 id="modalTitle"></h3><p id="modalSub"></p></div>
-      <button class="close" id="close">×</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
