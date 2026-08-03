@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience Profile</title>
+  <style>
+
+:root{
+  --page:#f5f7f6;--surface:#fff;--ink:#17211c;--muted:#6e7872;--line:#e4e9e6;
+  --accent:#245c45;--accent-soft:#edf5f1;--shadow:0 18px 52px rgba(23,33,28,.09)
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eef4f1 0%,var(--page) 42%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,textarea{font:inherit}button{cursor:pointer}
+.shell{width:min(920px,calc(100% - 28px));margin:34px auto 64px}
+.brand-header{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:20px}
+.eyebrow{margin:0;color:var(--accent);font-size:12px;font-weight:850;letter-spacing:.09em;text-transform:uppercase}
+h1{margin:5px 0 6px;font-size:clamp(34px,5vw,50px);letter-spacing:-.05em}
+.intro,.modal-subtitle{margin:0;color:var(--muted);line-height:1.5}
+.demo-badge{padding:8px 12px;border:1px solid #d7e5dd;border-radius:999px;color:var(--accent);background:var(--accent-soft);font-size:13px;font-weight:800;white-space:nowrap}
+.app{overflow:hidden;background:var(--surface);border:1px solid rgba(23,33,28,.06);border-radius:24px;box-shadow:var(--shadow)}
+.tabs{display:flex;border-bottom:1px solid var(--line);background:#fbfcfb}
+.tab{flex:1;padding:16px;border:0;background:transparent;color:var(--muted);font-weight:800}
+.tab.active{color:var(--accent);background:var(--surface);box-shadow:inset 0 -3px 0 var(--accent)}
+.panel{display:none;padding:clamp(22px,4vw,40px)}.panel.active{display:block}
+.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.profile-card{padding:26px;border:1px solid var(--line);border-radius:20px;background:var(--surface)}
+.profile-title{font-size:22px;font-weight:900}
+.score-label{margin-top:24px;color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+.score-line{display:flex;align-items:baseline;margin-top:3px}
+.score-main{font-size:52px;line-height:1;font-weight:950;letter-spacing:-.06em}
+.score-scale{margin-left:5px;color:#a0aaa4;font-size:21px;font-weight:700}
+.profile-description{margin-top:9px;font-size:16px;font-weight:750}
+.learn-button,.all-comments,.read-comments{padding:0;border:0;background:transparent;color:var(--accent);font-weight:850}
+.learn-button{margin-top:22px}
+.profile-details{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .25s ease,opacity .2s ease,margin-top .25s ease}
+.profile-details.open{grid-template-rows:1fr;opacity:1;margin-top:22px}
+.details-inner{min-height:0;overflow:hidden}
+.divider{height:1px;margin-bottom:20px;background:var(--line)}
+.verified-count{margin:0 0 15px;color:var(--muted);font-size:13px}
+.category-list{display:grid;gap:10px}
+.category-button{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:14px;background:#fafcfb;color:var(--ink);text-align:left}
+.category-name{font-weight:800}
+.category-score{display:flex;align-items:baseline;color:var(--accent)}
+.category-score strong{font-size:24px}.category-score small{margin-left:3px;color:#98a29c;font-weight:700}
+.all-comments{margin-top:15px}
+.community{margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
+.community h3{margin:0 0 4px;font-size:20px}
+.community-note{margin:0 0 16px;color:var(--muted);font-size:13px}
+.community-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.community-block{padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.community-block h4{margin:0 0 8px;font-size:15px}
+.topic{padding:12px 0;border-top:1px solid var(--line)}.topic:first-of-type{border-top:0}
+.topic strong{display:block}.topic-meta{margin-top:3px;color:var(--muted);font-size:12px}
+.read-comments{margin-top:5px;font-size:13px}
+.context-note{margin-top:12px;padding:12px;border:1px solid #eadfc5;border-radius:12px;background:#faf7ef;color:#6a521e;font-size:12px;line-height:1.45}
+.progress-meta{display:flex;justify-content:space-between;margin-bottom:8px;color:var(--muted);font-size:13px}
+.progress{height:8px;margin-bottom:26px;overflow:hidden;border-radius:999px;background:#edf1ef}
+.progress>div{height:100%;width:12.5%;background:var(--accent)}
+.step{display:none}.step.active{display:block}
+.step h2{margin:7px 0 20px;font-size:clamp(26px,4vw,38px);letter-spacing:-.04em}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choice,.rating-button{padding:16px;border:1.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-weight:800}
+.choice.selected,.rating-button.selected{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.rating-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.scale-labels{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:12px}
+textarea{width:100%;min-height:120px;padding:14px;border:1.5px solid var(--line);border-radius:14px;resize:vertical}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.button{padding:12px 18px;border:0;border-radius:12px;font-weight:850}
+.button.primary{color:#fff;background:var(--accent)}.button.secondary{color:var(--ink);background:#eef2f0}
+.button:disabled{opacity:.45;cursor:not-allowed}
+.success{text-align:center;padding:36px 10px}.hidden{display:none}
+.success-icon{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;color:var(--accent);background:var(--accent-soft);font-size:32px}
+.modal-wrap{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,20,.48)}
+.modal-wrap.open{display:flex}
+.modal{width:min(720px,100%);max-height:86vh;overflow:auto;border-radius:22px;background:#fff;box-shadow:var(--shadow)}
+.modal-header{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;gap:20px;padding:22px;border-bottom:1px solid var(--line);background:#fff}
+.modal-header h2{margin:6px 0 4px;font-size:30px}
+.close-button{width:40px;height:40px;border:0;border-radius:11px;background:#eef2f0;font-size:21px}
+.view-toggle{display:flex;gap:8px;padding:16px 22px 0}
+.view-button{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);font-weight:800}
+.view-button.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.modal-body{padding:18px 22px 24px}
+.comment-group{margin-bottom:26px}.comment-group:last-child{margin-bottom:0}
+.comment-group h3{margin:0 0 10px;font-size:18px}
+.comment-card{margin-bottom:12px;padding:16px;border:1px solid var(--line);border-radius:15px}
+.comment-meta{margin-bottom:8px;color:var(--muted);font-size:12px}
+.comment-author{color:var(--ink);font-weight:900}
+.verified-badge{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;color:var(--accent);background:var(--accent-soft);font-size:10px;font-weight:900}
+.comment-text{line-height:1.55}
+@media(max-width:760px){.brand-header{flex-direction:column}.profile-grid,.community-columns{grid-template-columns:1fr}.choices{grid-template-columns:1fr}.profile-card{padding:22px}}
+
+</style>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand-header">
+      <div>
+        <p class="eyebrow">Northwoods Property Management</p>
+        <h1>Experience Profile</h1>
+        <p class="intro">Understand what it is actually like to work with this business.</p>
+      </div>
+      <span class="demo-badge">Concept Demo</span>
+    </header>
+
+    <section class="app">
+      <nav class="tabs">
+        <button class="tab active" data-panel="profilePanel">Experience Profile</button>
+        <button class="tab" data-panel="reviewPanel">Leave a Review</button>
+      </nav>
+
+      <section id="profilePanel" class="panel active">
+        <div id="profileGrid" class="profile-grid"></div>
+      </section>
+
+      <section id="reviewPanel" class="panel">
+        <div id="reviewFlow">
+          <div class="progress-meta">
+            <span id="stepText">Step 1 of 8</span>
+            <span>Usually under 1 minute</span>
+          </div>
+          <div class="progress"><div id="progressBar"></div></div>
+          <div id="steps"></div>
+          <div class="actions">
+            <button class="button secondary" id="backButton" disabled>Back</button>
+            <button class="button primary" id="nextButton" disabled>Continue</button>
+          </div>
+        </div>
+
+        <div id="success" class="success hidden">
+          <div class="success-icon">✓</div>
+          <h2>Experience recorded</h2>
+          <p>This demo stores the review in your browser only.</p>
+          <button class="button primary" id="viewProfileButton">View Experience Profile</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal-wrap" id="commentModal" aria-hidden="true">
+    <section class="modal">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">Experience Comments</p>
+          <h2 id="modalTitle"></h2>
+          <p id="modalSubtitle" class="modal-subtitle"></p>
+        </div>
+        <button class="close-button" id="closeModal">×</button>
+      </header>
+      <div class="view-toggle">
+        <button class="view-button active" data-view="grouped">Grouped</button>
+        <button class="view-button" data-view="chronological">Chronological</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </section>
+  </div>
+
+  <script>
+
+const profiles=[
+{id:"owners",title:"Property Owners",score:93,description:"Exceptional Experience",count:142,verified:"Verified Owner",categories:{"Communication":95,"Reporting":91,"Maintenance Oversight":92,"Transparency":94},appreciation:[{title:"Clear communication",count:61},{title:"Detailed reporting",count:48}],concerns:[{title:"Repair approval timing",count:5},{title:"Vendor costs",count:3}]},
+{id:"tenants",title:"Current Tenants",score:88,description:"Strong Experience",count:384,verified:"Verified Tenant",categories:{"Communication":92,"Maintenance":86,"Professionalism":94,"Fairness":83},appreciation:[{title:"Clear communication",count:61},{title:"Professional staff",count:53},{title:"Easy leasing process",count:39}],concerns:[{title:"Repair timing",count:7},{title:"Vendor scheduling",count:3}]},
+{id:"former",title:"Former Tenants",score:82,description:"Generally Positive",count:167,verified:"Verified Former Tenant",categories:{"Communication":87,"Maintenance":84,"Professionalism":89,"Move Out":74},appreciation:[{title:"Clear explanations",count:28},{title:"Professional staff",count:25}],concerns:[{title:"Deposit questions",count:4},{title:"Move-out expectations",count:6}]},
+{id:"vendors",title:"Vendors",score:95,description:"Exceptional Experience",count:61,verified:"Verified Vendor",categories:{"Communication":96,"Scheduling":93,"Professionalism":97,"Payment":94},appreciation:[{title:"Clear work orders",count:31},{title:"Reliable payment",count:27}],concerns:[{title:"Access coordination",count:3}]}
+];
+const comments=[
+{name:"Sarah M.",date:"July 28, 2026",profile:"owners",category:"Communication",theme:"Clear communication",text:"I usually hear about an issue before I would have known to ask about it."},
+{name:"Michael T.",date:"July 17, 2026",profile:"owners",category:"Reporting",theme:"Detailed reporting",text:"The monthly statements are straightforward and easy to review."},
+{name:"Rebecca H.",date:"June 30, 2026",profile:"owners",category:"Maintenance Oversight",theme:"Repair approval timing",text:"They explain the options before approving an expensive repair, although approvals can add a little time."},
+{name:"Jason L.",date:"July 24, 2026",profile:"tenants",category:"Communication",theme:"Clear communication",text:"I never had to wonder what was happening with my maintenance request."},
+{name:"Emily R.",date:"July 12, 2026",profile:"tenants",category:"Maintenance",theme:"Repair timing",text:"The office responded quickly, but the vendor had to reschedule twice."},
+{name:"Daniel K.",date:"June 22, 2026",profile:"tenants",category:"Professionalism",theme:"Professional staff",text:"The staff was organized and respectful throughout the leasing process."},
+{name:"Kayla J.",date:"June 14, 2026",profile:"tenants",category:"Fairness",theme:"Easy leasing process",text:"The application and move-in instructions were clear and easy to complete."},
+{name:"Amanda C.",date:"July 3, 2026",profile:"former",category:"Move Out",theme:"Deposit questions",text:"I questioned the cleaning charge, but they provided photos and invoices."},
+{name:"Robert N.",date:"June 11, 2026",profile:"former",category:"Communication",theme:"Clear explanations",text:"Even though I disagreed with part of the move-out accounting, the explanation was clear."},
+{name:"Laura P.",date:"May 29, 2026",profile:"former",category:"Move Out",theme:"Move-out expectations",text:"The accounting was detailed, but I wish the cleaning standard had been explained sooner."},
+{name:"Chris B.",date:"July 20, 2026",profile:"vendors",category:"Scheduling",theme:"Access coordination",text:"Access coordination sometimes takes extra calls when a tenant is unavailable."},
+{name:"Nina S.",date:"July 8, 2026",profile:"vendors",category:"Payment",theme:"Reliable payment",text:"Invoices are processed consistently and communication is professional."},
+{name:"Tom W.",date:"June 19, 2026",profile:"vendors",category:"Communication",theme:"Clear work orders",text:"Work orders are clear, and the office provides the details needed before arrival."}
+];
+const grid=document.getElementById("profileGrid");
+const score=s=>`<div class="score-line"><span class="score-main">${s}</span><span class="score-scale">/100</span></div>`;
+const topics=(p,t)=>p[t].map(x=>`<div class="topic"><strong>${x.title}</strong><div class="topic-meta">Mentioned by ${x.count} reviewers</div><button class="read-comments" data-profile="${p.id}" data-theme="${x.title}">Read comments →</button></div>`).join("");
+grid.innerHTML=profiles.map(p=>`<article class="profile-card"><div class="profile-title">${p.title}</div><div class="score-label">Experience Score</div>${score(p.score)}<div class="profile-description">${p.description}</div><button class="learn-button" data-profile="${p.id}">Learn More</button><div class="profile-details" id="details-${p.id}"><div class="details-inner"><div class="divider"></div><p class="verified-count">Based on ${p.count} verified reviewers</p><div class="category-list">${Object.entries(p.categories).map(([c,s])=>`<button class="category-button" data-profile="${p.id}" data-category="${c}"><span class="category-name">${c}</span><span class="category-score"><strong>${s}</strong><small>/100</small></span></button>`).join("")}</div><button class="all-comments" data-profile="${p.id}">Read ${p.title} Comments →</button><section class="community"><h3>Community Experience</h3><p class="community-note">Recurring themes from ${p.title.toLowerCase()}.</p><div class="community-columns"><div class="community-block"><h4>What people appreciate</h4>${topics(p,"appreciation")}</div><div class="community-block"><h4>Concerns with Context</h4>${topics(p,"concerns")}<div class="context-note">A concern count shows how often the topic appeared, not how severe it was.</div></div></div></section></div></div></article>`).join("");
+
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));t.classList.add("active");document.getElementById(t.dataset.panel).classList.add("active")});
+document.querySelectorAll(".learn-button").forEach(b=>b.onclick=()=>{const id=b.dataset.profile;document.querySelectorAll(".profile-details").forEach(d=>{if(d.id!==`details-${id}`)d.classList.remove("open")});document.querySelectorAll(".learn-button").forEach(x=>{if(x!==b)x.textContent="Learn More"});const d=document.getElementById(`details-${id}`);const open=d.classList.toggle("open");b.textContent=open?"Show Less":"Learn More"});
+
+const modal=document.getElementById("commentModal"),title=document.getElementById("modalTitle"),subtitle=document.getElementById("modalSubtitle"),body=document.getElementById("modalBody");
+let active=[],view="grouped";
+const getProfile=id=>profiles.find(p=>p.id===id);
+const dateVal=d=>new Date(d).getTime();
+const card=c=>`<article class="comment-card"><div class="comment-meta"><span class="comment-author">${c.name}</span><span class="verified-badge">${getProfile(c.profile).verified}</span> · ${c.date}</div><div class="comment-text">“${c.text}”</div></article>`;
+function renderComments(){if(!active.length){body.innerHTML='<article class="comment-card">No matching comments are available yet.</article>';return}if(view==="chronological"){body.innerHTML=[...active].sort((a,b)=>dateVal(b.date)-dateVal(a.date)).map(card).join("");return}const groups=active.reduce((r,c)=>{(r[c.theme||c.category||"Other"]||=[]).push(c);return r},{});body.innerHTML=Object.entries(groups).map(([g,items])=>`<section class="comment-group"><h3>${g}</h3>${items.map(card).join("")}</section>`).join("")}
+function openModal(t,s,items){active=items;view="grouped";title.textContent=t;subtitle.textContent=s;document.querySelectorAll(".view-button").forEach(b=>b.classList.toggle("active",b.dataset.view==="grouped"));renderComments();modal.classList.add("open")}
+document.querySelectorAll(".category-button").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile),s=p.categories[b.dataset.category];openModal(b.dataset.category,`${p.title} · Experience Score ${s}/100`,comments.filter(c=>c.profile===p.id&&c.category===b.dataset.category))});
+document.querySelectorAll(".all-comments").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile);openModal(`${p.title} Comments`,`Based on ${p.count} verified reviewers`,comments.filter(c=>c.profile===p.id))});
+document.querySelectorAll(".read-comments").forEach(b=>b.onclick=()=>{const p=getProfile(b.dataset.profile);openModal(b.dataset.theme,`${p.title} comments`,comments.filter(c=>c.profile===p.id&&c.theme===b.dataset.theme))});
+document.querySelectorAll(".view-button").forEach(b=>b.onclick=()=>{view=b.dataset.view;document.querySelectorAll(".view-button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderComments()});
+document.getElementById("closeModal").onclick=()=>modal.classList.remove("open");
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};
+
+const reviewSteps=[
+{key:"role",eyebrow:"Your perspective",title:"Which best describes you?",type:"choices",options:["Current Tenant","Former Tenant","Property Owner","Vendor"]},
+{key:"stage",eyebrow:"Experience type",title:"What are you reviewing?",type:"choices",options:["Leasing","Living There","Maintenance","Move Out","Owner Services","Overall Experience"]},
+{key:"overall",eyebrow:"Overall experience",title:"How did it feel overall?",type:"choices",options:["🤩 Excellent","🙂 Good","😐 Average","🙁 Poor","😠 Very Poor"],values:[100,80,60,40,20],columns:5},
+{key:"communication",eyebrow:"Category 1 of 4",title:"Communication",type:"rating"},
+{key:"service",eyebrow:"Category 2 of 4",title:"Service response",type:"rating"},
+{key:"professionalism",eyebrow:"Category 3 of 4",title:"Professionalism",type:"rating"},
+{key:"fairness",eyebrow:"Category 4 of 4",title:"Fairness and transparency",type:"rating"},
+{key:"returnChoice",eyebrow:"Final required question",title:"Would you choose them again?",type:"choices",options:["✓ Yes","~ Maybe","× No"],values:["Yes","Maybe","No"],columns:3},
+{key:"comment",eyebrow:"Optional",title:"Anything others should know?",type:"comment"}];
+document.getElementById("steps").innerHTML=reviewSteps.map((s,i)=>{let content="";if(s.type==="choices")content=`<div class="choices" ${s.columns?`style="grid-template-columns:repeat(${s.columns},1fr)"`:""}>${s.options.map((label,j)=>`<button class="choice" data-value="${s.values?s.values[j]:label}">${label}</button>`).join("")}</div>`;else if(s.type==="rating")content=`<div class="rating-row">${[5,4,3,2,1].map((n,j)=>`<button class="rating-button" data-value="${[100,80,60,40,20][j]}">${n}</button>`).join("")}</div><div class="scale-labels"><span>Excellent</span><span>Needs work</span></div>`;else content='<textarea id="reviewComment" maxlength="400" placeholder="What stood out, positively or negatively?"></textarea>';return `<section class="step ${i===0?"active":""}" data-key="${s.key}"><p class="eyebrow">${s.eyebrow}</p><h2>${s.title}</h2>${content}</section>`}).join("");
+const steps=[...document.querySelectorAll(".step")],answers={};let current=0;const back=document.getElementById("backButton"),next=document.getElementById("nextButton");
+function renderStep(){steps.forEach((s,i)=>s.classList.toggle("active",i===current));document.getElementById("stepText").textContent=current<8?`Step ${current+1} of 8`:"Optional comment";document.getElementById("progressBar").style.width=`${Math.min((Math.min(current+1,8)/8)*100,100)}%`;back.disabled=current===0;const key=steps[current].dataset.key;next.textContent=current===8?"Submit Review":"Continue";next.disabled=current===8?false:answers[key]==null}
+document.querySelectorAll(".choice,.rating-button").forEach(b=>b.onclick=()=>{const s=b.closest(".step");s.querySelectorAll(".choice,.rating-button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");answers[s.dataset.key]=b.dataset.value;next.disabled=false});
+back.onclick=()=>{if(current>0){current--;renderStep()}};
+next.onclick=()=>{if(current<8){current++;renderStep();return}answers.comment=document.getElementById("reviewComment").value.trim();const saved=JSON.parse(localStorage.getItem("experienceProfileReviews")||"[]");saved.push({...answers,createdAt:new Date().toISOString()});localStorage.setItem("experienceProfileReviews",JSON.stringify(saved));document.getElementById("reviewFlow").classList.add("hidden");document.getElementById("success").classList.remove("hidden")};
+document.getElementById("viewProfileButton").onclick=()=>document.querySelector('[data-panel="profilePanel"]').click();
+renderStep();
+
+</script>
+</body>
+</html>
