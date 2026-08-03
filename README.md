@@ -1,11 +1,9 @@
-# Experience Profile Demo
+# Experience Profile v0.3
 
-## Publish on GitHub Pages
+Upload these files to the root of your GitHub Pages repository:
 
-1. Create a public GitHub repository.
-2. Upload `index.html`, `styles.css`, `script.js`, and this README to the repository root.
-3. Open **Settings → Pages**.
-4. Select **Deploy from a branch**.
-5. Choose `main` and `/ (root)`, then save.
+- index.html
+- styles.css
+- script.js
 
-GitHub will display the public URL once deployment is complete.
+Replace the older versions and commit the changes.
